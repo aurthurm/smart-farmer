@@ -1,0 +1,65 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<title> 
+			{% block title %}Agric Portal{% endblock %} - Smart Agriculture
+		</title>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=yes"/>
+		<script src="https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.js"></script>
+		<link href="https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.css" rel="stylesheet"/>
+		<meta charset="utf-8">
+		<link rel="icon" type="image/x-icon" href="assets/img/favicon.ico" />
+		<script src="https://use.fontawesome.com/releases/v5.15.1/js/all.js" crossorigin="anonymous"></script>
+		<link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
+		<link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css" />
+		<script href="{% static 'crop/js/jquery-3.3.1.min.js' %}"  type='text/javascript'></script>
+		<script href="{% static 'crop/js/popper.min.js' %}"  type='text/javascript' ></script>
+		<script href="{% static 'crop/js/bootstrap.min.js' %}"  type='text/javascript' ></script>
+		<script href="{% static 'crop/js/axios.min.js' %}"  type='text/javascript' ></script>
+		<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+		<meta name="keywords" content="Smart Farming, Predictive Agriculture"/>
+		<link href="{% static 'crop/css/bootstrap.min.css' %}" rel='stylesheet' type='text/css' />
+		<link href="{% static 'crop/css/style.css' %}" rel='stylesheet' type='text/css' />
+		<link href="{% static 'crop/css/farmer.css' %}" rel='stylesheet' type='text/css' /> 
+		{% block head_style %}{% endblock %}
+		{% block head_script %}{% endblock %}
+	</head>
+	<body>
+		{% block bg_video %}{% endblock %}
+
+		{% block navigation %}
+			{% include "navigation.html" %}
+		{% endblock %}
+
+		{% block pre_main_content %}
+			{% include "page-header.html" %}
+		{% endblock %}
+
+		{% block main_content %}{% endblock %}
+
+		{% block footer %}
+			{% include "footer.html" %}
+		{% endblock %}		
+
+		<script type="text/javascript">
+			(function(d, m){
+				var kommunicateSettings = 
+					{"appId":"7a66bfc2ad442700b57d11a03e065b1b","popupWidget":true,"automaticChatOpenOnNavigation":true};
+				var s = document.createElement("script"); s.type = "text/javascript"; s.async = true;
+				s.src = "https://widget.kommunicate.io/v2/kommunicate.app";
+				var h = document.getElementsByTagName("head")[0]; h.appendChild(s);
+				window.kommunicate = m; m._globals = kommunicateSettings;
+			})(document, window.kommunicate || {});
+		</script>
+		{% block footer_script %}
+		{% endblock %}
+	</body>
+</html>
+
+
+
+
+

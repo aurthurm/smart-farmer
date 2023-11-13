@@ -1,8 +1,5 @@
 {% load static %}
 
-
-
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -116,21 +113,12 @@ if (_isNS('google.translate.Element')){return}(function(){var c=_setupNS('google
 
 
 							<ul class="nav" id="nav">
-{#								<li><a href="index.html">Home</a></li>#}
-{#								<li><a href="about.html">About Us</a></li>#}
-{#								<li><a href="predict.html">Prediction</a></li>#}
-{#								<li><a href="schemes.html">Schemes</a></li>#}
-{#								<li><a href="weather.html">Latest weather</a></li>#}
-{#								<li><a href="organic.html">Organic Farming</a></li>#}
-{#								<li><a href="#contact">Contact</a></li>#}
-
                                 <li><a href="{% url 'home' %}">Home</a></li>
 								<li><a href="{% url 'about' %}">About Us</a></li>
 								<li><a href="{% url 'prediction' %}">Prediction</a></li>
 								<li><a href="{% url 'schemes' %}">Schemes</a></li>
 								<li><a href="{% url 'latestweather' %}">Latest weather</a></li>
 								<li><a href="{% url 'contact' %}">Contact</a></li>
-
 							</ul>
                             <!----start-top-nav-script---->
 

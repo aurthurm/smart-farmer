@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block head_style %}
+<style type="text/css">
+	{% comment %} .media-body {
+		max-width: 80% !important;
+	}
+	.assistant {
+		margin-right:  20% !important;
+		text-align: left !important;
+	}
+	.user {
+		margin-left:  20% !important;
+		text-align: right !important;
+	} {% endcomment %}
+</style>
+{% endblock %}
+
+{% block main_content %}
+	{% verbatim %}
+	<div class="container mt-4" id="askGuru" v-scope>
+		<ul class="list-unstyled">
+			<li class="d-flex" :class="'user' == role ? 'flex-row-reverse' : 'flex-row'"  v-for="({ content, role }, index) in conversations" :key="index">
+				<div class="rounded py-2" :class="'user' == role ? 'user bg-info px-4' : 'assistant pr-4'">
+					{{content}}
+				</div>
+			</li>
+		</ul>
+
+		<form class="main-form mt-4">
+			<div class="form-row mb-2">
+				<div class="col">
+					<textarea class="form-control" id="ask" rows="3" placeholder="Start typing ..." v-model="message"></textarea>
+				</div>
+			</div>
+			<input type="submit" id="submitt" value="Ask" class="btn btn-sm btn-success" @click="ask($event)">
+		</form>
+
+		<hr />
+		
+	</div>
+	{% endverbatim %}
+{% endblock %}
+
+{% block footer_script %}
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.2.1/axios.min.js"></script>
+	{% comment %} <script src="https://unpkg.com/browse/vue@3.3.8/dist/vue.global.js"></script> {% endcomment %}
+	<script type="module">
+		import { createApp } from 'https://unpkg.com/petite-vue?module'
+	  
+		createApp({
+		  message: "",
+		  conversations: [{"role": "assistant", "content": "Hie I am your agriculture guru. Talk to me"}],
+		  get allChats() {
+			return this.conversations;
+		  },
+		  ask(event) {
+			event.preventDefault();
+			event.stopPropagation();
+			this.conversations.push({"role": "user", "content": this.message});
+
+			let data = new FormData();
+			data.append("content", JSON.stringify({
+				"message": this.message,
+			}));
+
+			axios({
+				method: 'POST',
+				url: '{% url "ask-guru" %}',
+				data: data,
+				headers: {"X-CSRFToken": '{{ csrf_token }}'},
+			})
+			.then(({ data }) => {
+				this.conversations.push(data.data)
+			})
+			.catch(errors => console.log(errors));
+
+			this.message = "";
+		  }
+		}).mount()
+	  </script>
+
+{% endblock %}
