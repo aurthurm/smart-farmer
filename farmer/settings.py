@@ -27,7 +27,11 @@ SECRET_KEY = 'l7&1(^r@f-eg=vo5@3j2t+p$^cbgjbov3n656-8f4zzcj+=)1v'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    "192.168.0.40",
+    "196.27.127.58",
+    "mhealth.nmrl.org.zw",
+]
 
 
 # Application definition
