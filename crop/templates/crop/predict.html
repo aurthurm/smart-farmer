@@ -25,22 +25,44 @@
 					<input type="number" step="0.01" class="form-control" placeholder="Potassium" name="K" id="fpotvalue" onfocus="this.value = '';">
 				</div>
 			</div>
-			<input type="submit" id="submitt" value="Submit and Predict" class="btn btn-sm btn-success">
+			<div class="d-flex justify-content-start mb-4">
+				<input type="submit" id="submitt" value="Submit and Predict" class="btn btn-sm btn-success">
+				<button id="loader" class="btn btn-primary ml-2 d-none" type="button" disabled>
+					Loading...
+				</button>
+			</div>
 		</form>
 
 		<hr />
 		
 		<div class="d-flex justify-content-start mb-4">
-			<div class="card text-white bg-success" style="max-width: 18rem;">
+			<div class="card text-white bg-success" style="max-width: 50%;">
 				<div class="card-header">Main Recommendation</div>
 				<div class="card-body">
 					<p class="card-text" id="resultt"></p>
 				</div>
 			</div>
-			<div class="card text-white bg-info ml-4" style="max-width: 18rem;">
-				<div class="card-header">Secondary Alternatives</div>
+			<div class="card text-white bg-info ml-4" style="max-width: 50%;">
+				<div class="card-header">Alternatives by Area</div>
 				<div class="card-body">
 					<p class="card-text" id="resulta"></p>
+				</div>
+			</div>
+		</div>
+
+		<hr />
+		
+		<div class="d-flex justify-content-start mb-4">
+			<div class="card text-white bg-success" style="max-width: 50%;">
+				<div class="card-header">Organic Fertiliser Suggestions</div>
+				<div class="card-body">
+					<p class="card-text" id="resultF"></p>
+				</div>
+			</div>
+			<div class="card text-white bg-info ml-4" style="max-width: 50%;">
+				<div class="card-header">Synthetic Fertiliser Suggestions</div>
+				<div class="card-body">
+					<p class="card-text" id="resultS"></p>
 				</div>
 			</div>
 		</div>
@@ -55,6 +77,8 @@
 		const form = document.getElementById('formm');
 		form.addEventListener("submit", function(event) {
 			event.preventDefault();
+			document.getElementById('resultt').classList.add("d-none");
+			document.getElementById('loader').classList.remove("d-none");
 
 			let data = new FormData();
 			data.append("content", JSON.stringify({
@@ -71,9 +95,13 @@
 				data: data,
 				headers: {"X-CSRFToken": '{{ csrf_token }}'},
 			}).then(res => {
-				console.log(res)
 				document.getElementById('resultt').innerHTML=JSON.stringify(res.data.content)
 				document.getElementById('resulta').innerHTML=JSON.stringify(res.data.other)
+				document.getElementById('resultF').innerHTML=JSON.stringify(res.data.fertiliser)
+				document.getElementById('resultS').innerHTML=JSON.stringify(res.data.synthetics)
+				// 
+				document.getElementById('resultt').classList.remove("d-none");
+				document.getElementById('loader').classList.add("d-none");
 			}).catch(errors => console.log(errors));
 		});
 	</script>

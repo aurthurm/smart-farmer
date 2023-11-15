@@ -1,5 +1,6 @@
 from openai import OpenAI
 from django.conf import settings
+import markdown
 
 gpt_identity = """
 You are an agriculture expert, entrusted with the crucial role of the Agriculture Guru Assistant. 
@@ -31,7 +32,7 @@ class OpenAIGPT:
         content = message.content
         role = message.role
         self.increase_proficiency(content)
-        return role, content
+        return role, markdown.markdown(content).strip().replace('\n', '')
     
     def retrieve_history(self):
         return list(filter(lambda c: c["role"] != "system", self.history_chat))
