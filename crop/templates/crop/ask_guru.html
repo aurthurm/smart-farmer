@@ -3,17 +3,12 @@
 
 {% block head_style %}
 <style type="text/css">
-	{% comment %} .media-body {
-		max-width: 80% !important;
-	}
 	.assistant {
 		margin-right:  20% !important;
-		text-align: left !important;
 	}
 	.user {
 		margin-left:  20% !important;
-		text-align: right !important;
-	} {% endcomment %}
+	}
 </style>
 {% endblock %}
 
@@ -22,8 +17,8 @@
 	<div class="container mt-4" id="askGuru" v-scope>
 		<ul class="list-unstyled">
 			<li class="d-flex" :class="'user' == role ? 'flex-row-reverse' : 'flex-row'"  v-for="({ content, role }, index) in conversations" :key="index">
-				<div class="rounded py-2" :class="'user' == role ? 'user bg-info px-4' : 'assistant pr-4'">
-					{{content}}
+				<div class="rounded py-2" :class="'user' == role ? 'user bg-info px-4' : 'assistant pr-4'" >
+					<div v-html="markdownToHtml(content)"></div>
 				</div>
 			</li>
 		</ul>
@@ -45,8 +40,10 @@
 
 {% block footer_script %}
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.2.1/axios.min.js"></script>
-	{% comment %} <script src="https://unpkg.com/browse/vue@3.3.8/dist/vue.global.js"></script> {% endcomment %}
+	<!-- <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script> -->
+	<!-- <script src="https://unpkg.com/browse/vue@3.3.8/dist/vue.global.js"></script> -->
 	<script type="module">
+		import { marked } from "https://cdn.jsdelivr.net/npm/marked/lib/marked.esm.js";
 		import { createApp } from 'https://unpkg.com/petite-vue?module'
 	  
 		createApp({
@@ -54,6 +51,9 @@
 		  conversations: [{"role": "assistant", "content": "Hie I am your agriculture guru. Talk to me"}],
 		  get allChats() {
 			return this.conversations;
+		  },
+		  markdownToHtml(textString){
+			return marked.parse(textString);
 		  },
 		  ask(event) {
 			event.preventDefault();
